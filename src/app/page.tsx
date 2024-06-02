@@ -1,95 +1,97 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client"
+import { Stack, Typography } from "@mui/material";
+import ImageRightText from "./library/image-right-text/image-right-text";
+import { sizeVariables } from "./library/themes/main-theme";
+import CardProjectVerticalList from "./library/card-project/vertical/card-project-vertical-list/card-project-vertical-list";
+import { mainPage, mainPageData, mainPageLinks } from "./library/fake-data/fake-data";
+import TextList from "./library/text-list/text-list";
+import LinksList from "./library/text-list/links-list";
+import SearchInput from "./library/search/search-input/search-input";
+import { 
+  FourthPadding, 
+  InfoBackground, 
+  LargeBottomMargin, 
+  PrimaryPaddings, 
+  SecondaryBackground, 
+  SecondaryPaddings, 
+  ThirdyBottomMargin 
+} from "./library/containers/secondary-container/secondary-container";
+import React from "react";
+
 
 export default function Home() {
+
+  function CenterContentHelper(props: {content: React.ReactNode}){
+    return <LargeBottomMargin>
+      <PrimaryPaddings>
+        <Stack alignItems="center">
+            <Stack width={sizeVariables.maxWidthHeaderContent}>
+              {props.content}
+            </Stack>
+        </Stack>
+      </PrimaryPaddings>
+    </LargeBottomMargin>
+  }
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+    <SecondaryBackground>
+      <ImageRightText 
+        upperText="“...городская библиотека, как книгохранилище, 
+        должна занимать свое собственное, просторное, 
+        привлекательное для публики помещение...” А.П. Чехов" 
+        lowwerText="“В человеке всё должно быть прекрасно: и лицо, 
+        и одежда, и душа, и мысли” А.П. Чехов"
+        imgUrl="main0.jpg"
+      />
+      <PrimaryPaddings>
+          {mainPage.map(data => <CardProjectVerticalList 
+            title={data.title}
+            buttonText={data.buttonText}
+            projects={data.projects}
+            redirectTo={data.redirectTo}
+          />)}
+      </PrimaryPaddings>
+      <LargeBottomMargin>
+        <InfoBackground id="shedule">
+          <FourthPadding>
+            <Stack alignItems="center">
+              <Stack 
+                direction={{
+                  sm: "column",
+                  md: "row"
+                }}
+                justifyContent="center"
+                maxWidth={sizeVariables.maxWidthHeaderContent}
+                spacing={21}
+              >
+                {mainPageData.map(data => <TextList title={data.title} textArray={data.textArray} />)}
+              </Stack>
+            </Stack>
+          </FourthPadding>
+        </InfoBackground>
+      </LargeBottomMargin>
+      <CenterContentHelper 
+        content={<LinksList title={mainPageLinks.title} textArray={mainPageLinks.textArray} />}
+      />          
+      <ThirdyBottomMargin id="scores">
+        <CardProjectVerticalList
+          buttonText="Оставить отзыв"
+          projects={[]}
+          title="ВАШЕ МНЕНИЕ ВАЖНО ДЛЯ НАС"
+          redirectTo="/score"
         />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+      </ThirdyBottomMargin>
+      <CenterContentHelper 
+        content={
+          <SecondaryPaddings>
+            <Stack direction="row" alignItems="center" spacing={5}>
+              <Typography variant="h2" textTransform="uppercase">Поиск по сайту</Typography>
+              <SearchInput sizes={{ width: 82, height: 7 }} isSearchDefault={true} label="что ищите?" />
+            </Stack>
+          </SecondaryPaddings>
+        }
+      />
+      <Stack></Stack>
+    </SecondaryBackground>
+  ); 
 }
